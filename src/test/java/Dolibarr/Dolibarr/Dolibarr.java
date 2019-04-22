@@ -6,22 +6,24 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import pages.DolibarrLogin;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class Dolibarr {
 
-	private WebDriver driver;
+	private static WebDriver driver;
 	
 	//Initialisation de l'instance du driver
 	@BeforeClass
 	public static void setupClass() {
-		WebDriverManager.chromedriver().setup();
+		String projectPath=System.getProperty("user.dir");
+		System.setProperty("webdriver.chrome.driver", projectPath+"/drivers/");
 	}
 	//Setup chrome driver
 	@Before
 	public void setupTest() {
 		driver= new ChromeDriver(); 
+		
 	}
 
 	@After
@@ -38,22 +40,25 @@ public class Dolibarr {
 		//Démarrage du navigateur Dolibarr
 		driver.get("https://demo.dolibarr.org/public/demo/index.php");
 		
-		driver.findElement(By.xpath("//*[@id='a1profdemoservonly']/a/div/div[2]")).click();
+		
+		//Cliquer sur le URL
+		DolibarrLogin.pre_URL(driver).click();
 		
 		//Effacer le champ username
-		driver.findElement(By.xpath("//*[@id='username']")).clear();
+		DolibarrLogin.username_textbox(driver).clear();
 		
 		//Saisir login
-		driver.findElement(By.xpath("//*[@id='username']")).sendKeys("demo");
+		DolibarrLogin.username_textbox(driver).sendKeys("demo");
 		
 		//Effacer le champ password
-		driver.findElement(By.xpath("//*[@id='password']")).clear();
+		DolibarrLogin.password_textbox(driver).clear();
 		
 		//Saisir Mot de passe
-		driver.findElement(By.xpath("//*[@id='password']")).sendKeys("demo");
-		driver.findElement(By.xpath("//*[@id='login_line2']/input")).click();
+		DolibarrLogin.password_textbox(driver).sendKeys("demo");
 		
-		//driver.findElement(By
+		//Cliquer sur le bouton
+		DolibarrLogin.se_connecter_bouton(driver).click();
 		
+			
 	}
 }
